@@ -10,7 +10,7 @@ defineProps({
 
 
 <template>
-  <div v-if="towerEvent" class="row position-relative">
+  <div v-if="towerEvent" class="row position-relative cover-img">
     <img :src="towerEvent.coverImg" :alt="`cover image for the ${towerEvent.name} event`" class="img-fluid w-100">
     <div class="col-2 type-wrapper position-absolute text-center">
       <i class="mdi mdi-guitar-electric text-light fs-4"></i>
@@ -28,7 +28,8 @@ defineProps({
 <style lang="scss" scoped>
 
 img {
-  min-height: 180px;
+  min-height: 300px;
+  max-height: 300px;
   object-fit: cover;
 }
 

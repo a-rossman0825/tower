@@ -6,15 +6,12 @@ import Login from './Login.vue';
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-md">
+  <nav class="navbar navbar-expand-md navbar-bg">
     <div class="container gap-2 position-relative">
       <RouterLink :to="{ name: 'Home' }" class="d-flex align-items-center text-light">
         <img class="navbar-brand position-absolute" alt="logo" src="../assets/img/tower-logo.svg" height="65" />
         <b class="fs-5">Tower</b>
       </RouterLink>
-      <!-- collapse button -->
-      
-      <!-- collapsing menu -->
       <div>
         <!-- LOGIN COMPONENT HERE -->
         <div>
@@ -36,6 +33,11 @@ b {
 
 .nav-link {
   text-transform: uppercase;
+}
+
+.navbar-bg {
+  background-color: rgba(33, 31, 31, .50);
+  backdrop-filter: blur(2px);
 }
 
 .navbar-nav .router-link-exact-active {

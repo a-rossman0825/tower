@@ -34,7 +34,7 @@ const slides = [
 
 
 <template>
-<div class="wrapper">
+<div class="hero-container">
   <div v-for="(slide, index) in slides" :key="index" class="slide" :style="{ backgroundImage: `url(${slide.imgUrl})` }" :class="{ active: index === currentSlideIndex }">
     <div class="hero-text align-items-end row d-flex justify-content-start">
       <h5 class="col-6">{{ slide.header }}</h5>
@@ -47,9 +47,9 @@ const slides = [
 
 <style lang="scss" scoped>
   
-  .wrapper {
+  .hero-container {
     position: relative;
-    width: 110%;
+    width: 100%;
     height: 50vh;
     overflow: hidden;
     padding: 0;
@@ -66,7 +66,7 @@ const slides = [
     transition: opacity .4s ease-in-out;
   }
 
-  .slide.active {
+  .active {
     opacity: 1;
   }
 
