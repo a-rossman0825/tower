@@ -30,6 +30,9 @@ class TowerEventsService {
   
   async editTowerEvent(towerEventId, towerEventEditData) {
     const towerEventToEdit = await this.getTowerEventById(towerEventId);
+    if (towerEventToEdit.isCanceled) {
+      throw new BadRequest(`don't edit cancelled events, dweebus!`);
+    }
     towerEventToEdit.name = towerEventEditData.name ?? towerEventToEdit.name;
     towerEventToEdit.description = towerEventEditData.description ?? towerEventToEdit.description;
     towerEventToEdit.coverImg = towerEventEditData.coverImg ?? towerEventToEdit.coverImg;
