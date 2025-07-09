@@ -41,6 +41,13 @@ const currentSlideIndex = ref(0);
     overflow: hidden;
     padding: 0;
     margin-inline: 0;
+    display: block;
+  }
+
+  @media (max-width: 375px) {
+    .hero-container {
+      display: none;
+    }
   }
 
   .slide {
@@ -60,7 +67,7 @@ const currentSlideIndex = ref(0);
   .hero-text {
     position: absolute;
     bottom: 0px;
-    left: 20px;
+    left: 60px;
     color: white;
     text-shadow: 1px 1px 1px black;
   }
