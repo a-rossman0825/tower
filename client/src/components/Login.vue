@@ -17,18 +17,19 @@ function logout() {
 
 <template>
   <span class="navbar-text">
-    <button class="btn selectable text-green" @click="login" v-if="!identity">
+    <button class="btn selectable text-light" @click="login" v-if="!identity">
       Login
     </button>
     <div v-else>
       <div class="dropdown">
-        <div role="button" class="bg-dark selectable no-select" data-bs-toggle="dropdown" aria-expanded="false"
+        <div role="button" class="me-2 no-select" data-bs-toggle="dropdown" aria-expanded="false"
           title="open account menu">
           <div v-if="account?.picture || identity?.picture">
-            <img :src="account?.picture || identity?.picture" alt="account photo" height="40" class="user-img" />
+            <img :src="account?.picture || identity?.picture" alt="account photo" height="30" class="user-img" />
+            <span class="ms-2 text-light ">{{ account?.name || identity?.name }}</span>
           </div>
         </div>
-        <div class="dropdown-menu dropdown-menu-sm-end dropdown-menu-start p-0" role="menu" title="account menu">
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-start p-0" role="menu" title="account menu">
           <div class="list-group">
             <RouterLink :to="{ name: 'Account' }">
               <div class="list-group-item dropdown-item list-group-item-action">
@@ -48,8 +49,8 @@ function logout() {
 
 <style lang="scss" scoped>
 .user-img {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   border-radius: 100px;
   object-fit: cover;
   object-position: center;
