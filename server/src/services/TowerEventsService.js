@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js";
-import { BadRequest } from "../utils/Errors.js";
+import { BadRequest, Forbidden } from "../utils/Errors.js";
 
 
 class TowerEventsService {
@@ -37,10 +37,22 @@ class TowerEventsService {
     towerEventToEdit.capacity = towerEventEditData.capacity ?? towerEventToEdit.capacity;
     towerEventToEdit.startDate = towerEventEditData.startDate ?? towerEventToEdit.startDate;
     towerEventToEdit.type = towerEventEditData.type ?? towerEventToEdit.type;
-
+    
     await towerEventToEdit.save();
-
+    
     return towerEventToEdit;
+  }
+  
+  async cancelTowerEvent(towerEventId, userInfo) {
+    const towerEvent = await this.getTowerEventById(towerEventId);
+    if (towerEvent.creatorId != userInfo.id) {
+      throw new Forbidden(`You are trying to cancel someone else's event, and for that, you will be punished ${userInfo.name}!`);
+    }
+    towerEvent.isCanceled = true;
+
+    await towerEvent.save();
+
+    return towerEvent;
   }
 }
 
