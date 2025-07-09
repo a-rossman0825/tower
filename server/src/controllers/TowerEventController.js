@@ -8,6 +8,7 @@ export class TowerEventController extends BaseController {
   constructor() {
     super('api/events')
     this.router
+    .get('', this.getAllTowerEvents)
     .use(Auth0Provider.getAuthorizedUserInfo)
     .post('', this.createTowerEvent)
   }
@@ -24,6 +25,22 @@ export class TowerEventController extends BaseController {
       towerEventData.creatorId = userInfo.id;
       const towerEvent = await towerEventsService.createTowerEvent(towerEventData);
       res.send(towerEvent);
+    }
+    catch (error){
+      next(error);
+    }
+    
+  }
+
+  /**
+   * @param {import ("express").Request} req
+   * @param {import ("express").Response} res
+   * @param {import ("express").NextFunction} next
+   */
+  async getAllTowerEvents(req, res, next) {
+    try {
+      const towerEvents = await towerEventsService.getAllTowerEvents();
+      res.send(towerEvents);
     }
     catch (error){
       next(error);
