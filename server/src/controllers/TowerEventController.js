@@ -1,6 +1,5 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
-import { logger } from "../utils/Logger.js";
 import { towerEventsService } from "../services/TowerEventsService.js";
 
 
@@ -12,6 +11,7 @@ export class TowerEventController extends BaseController {
     .get('/:eventId', this.getTowerEventById)
     .use(Auth0Provider.getAuthorizedUserInfo)
     .post('', this.createTowerEvent)
+    .put('/:eventId', this.editTowerEvent)
   }
 
   /**
@@ -57,6 +57,22 @@ export class TowerEventController extends BaseController {
     try {
       const towerEventId = req.params.eventId;
       const towerEvent = await towerEventsService.getTowerEventById(towerEventId);
+      res.send(towerEvent);
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+   * @param {import ("express").Request} req
+   * @param {import ("express").Response} res
+   * @param {import ("express").NextFunction} next
+   */
+  async editTowerEvent(req, res, next) {
+    try {
+      const towerEventId = req.params.eventId;
+      const towerEventEditData = req.body;
+      const towerEvent = await towerEventsService.editTowerEvent(towerEventId, towerEventEditData);
       res.send(towerEvent);
     } catch (error) {
       next(error)
