@@ -1,19 +1,12 @@
 <script setup>
-import { ref, watch } from 'vue';
-import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
 
-const theme = ref(loadState('theme') || 'dark')
 
-watch(theme, () => {
-  document.documentElement.setAttribute('data-bs-theme', theme.value)
-  saveState('theme', theme.value)
-}, { immediate: true })
 
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-md mb-4">
+  <nav class="navbar navbar-expand-md">
     <div class="container gap-2 position-relative">
       <RouterLink :to="{ name: 'Home' }" class="d-flex align-items-center text-light">
         <img class="navbar-brand position-absolute" alt="logo" src="../assets/img/tower-logo.svg" height="65" />
@@ -53,5 +46,6 @@ b {
 
 .position-absolute {
   top: -8px;
+  z-index: 2;
 }
 </style>

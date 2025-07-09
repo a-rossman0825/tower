@@ -1,5 +1,9 @@
 @import '_main.scss';
 
+body {
+  background-color: #211f1f;
+}
+
 #app {
   display: flex;
   flex-direction: column;
