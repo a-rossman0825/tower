@@ -33,11 +33,11 @@ async function getTowerEvents() {
   <!-- !SECTION -->
 
   <!-- SECTION HOW IT WORKS DISCOVER/CREATE BUTTONS -->
-  <section class="container">
-    <h4 class="text-light mt-5 mb-4">How Tower Works</h4>
+  <section class="container mt-5">
+    <h4 class="text-light ms-5 mt-5 mb-4">How Tower Works</h4>
     <div class="row justify-content-center text-light">
       
-        <a class="col-10 col-md-4 works-card rounded mb-3 mb-md-0 me-md-3">
+        <a class="col-10 col-md-4 works-card rounded mb-3 mb-md-0 me-md-5">
           <div class="row">
             <div class="col-2 mt-2">
               <i class="mdi mdi-magnify text-primary display-3"></i>
@@ -50,12 +50,12 @@ async function getTowerEvents() {
         </a>
       
       
-        <div class="col-10 col-md-4 works-card rounded">
+        <div class="col-10 col-md-4 works-card rounded ms-md-5">
           <div class="row">
             <div class="col-2 mt-2">
               <i class="mdi mdi-plus text-primary display-3"></i>
             </div>
-            <div class="col-9 ms-2 mt-4">
+            <div class="col-9 mt-4">
               <h5>Start an event to invite your friends</h5>
               <span>Create your own Tower Event, and draw from a community of millions</span>
               <p class="text-success">Create an Event</p>
@@ -68,9 +68,9 @@ async function getTowerEvents() {
   <!-- !SECTION -->
   
   <!-- SECTION UPCOMING EVENTS CARDS  -->
-  <section class="container">
-    <h4 class="text-light mt-5 mb-3">Upcoming events</h4>
-    <div id="upcoming-events" class="row justify-content-center">
+  <section class="container mt-5">
+    <h4 class="text-light mt-5 mb-3 ms-5">Upcoming events</h4>
+    <div class="row justify-content-center">
       <div v-for="towerEvent in towerEvents" :key="towerEvent.id" class="col-md-4 col-sm-6 mb-5">
         <UpcomingEventCard :towerEvent />
       </div>

@@ -9,12 +9,12 @@ export const AppState = reactive({
 
   /** @type {import('./models/TowerEvent.js').TowerEvent[]}*/
   towerEvents: [],
+  /** @type {import('./models/TowerEvent.js').TowerEvent}*/
+  towerEvent: null,
 
 
 
 
-
-  
 
   slides: [
   {
