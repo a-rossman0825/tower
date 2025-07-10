@@ -12,14 +12,14 @@ class TowerEventsService {
   }
   
   async getAllTowerEvents() {
-    const towerEvents = await dbContext.TowerEvents.find().populate('creator', 'name picture');
+    const towerEvents = await dbContext.TowerEvents.find().populate('creator', 'name picture').populate('ticketCount');
     // TODO Event Ticket Count .populate
     return towerEvents;
   }
   
   async getTowerEventById(towerEventId) {
     const towerEvent = await dbContext.TowerEvents.findById(towerEventId)
-    .populate('creator', 'name picture');
+    .populate('creator', 'name picture').populate('ticketCount');
     
     if (!towerEvent) {
       throw new BadRequest(`Invalid id: ${towerEventId}`);
