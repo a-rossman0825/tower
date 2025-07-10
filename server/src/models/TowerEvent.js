@@ -9,6 +9,7 @@ export const TowerEventSchema = new Schema(
     coverImg: { type: String, maxlength: 500, required: true },
     location: { type: String, minlength: 1, maxlength: 500, required: true },
     capacity: { type: Number, min: 1, max: 5000, required: true },
+    // ticketCount: {type: Number, min: 0, required: true },
     startDate: { type: Date, required: true },
     isCanceled: { type: Boolean, required: true, default: false },
     type: { type: String, enum: ['concert', 'convention', 'sport', 'digital'], required: true }
@@ -25,3 +26,11 @@ TowerEventSchema.virtual('creator', {
   ref: 'Account',
   justOne: true
 })
+
+// TowerEventSchema.virtual('ticketCount', {
+//   localField: '_id',
+//   foreignField: 'eventId',
+//   ref: 'Ticket',
+//   justOne: false,
+//   count: true
+// })
