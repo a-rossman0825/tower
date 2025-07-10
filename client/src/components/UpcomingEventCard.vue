@@ -21,7 +21,7 @@ defineProps({
       <h5 class="mt-3">{{ towerEvent.name }}</h5>
       <!-- TODO Change text color if User is Host -->
       <span>{{ towerEvent.startDate.toLocaleDateString() }} - {{ towerEvent.location }}</span>
-      <p>{{ towerEvent.capacity }} attending</p>
+      <p>{{ towerEvent.ticketCount }} attending</p>
       <div class="row align-items-bottom justify-content-start">
         <img :src="towerEvent.creator.picture" :alt="`${towerEvent.creator.name}'s profile picture`" class="col-1 profile-img">
         <p class="text-success col-9">Hosted by {{ towerEvent.creator.name }}</p>

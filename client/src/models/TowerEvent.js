@@ -7,6 +7,7 @@ export class TowerEvent {
     this.coverImg = data.coverImg;
     this.location = data.location;
     this.capacity = data.capacity;
+    this.ticketCount = data.ticketCount;
     this.startDate = new Date(data.startDate);
     this.isCanceled = data.isCanceled;
     this.type = data.type;
@@ -55,6 +56,25 @@ export class TowerEvent {
         break;
     }
     return emojiBG;
+  }
+
+  get attendeeColor() {
+    const capacity = this.capacity;
+    const ticketsSold = this.ticketCount;
+    let color = ''
+    
+  
+    if ((ticketsSold <= 3 || ticketsSold == 0)) {
+      color = 'danger';
+    }
+    if ((ticketsSold > (capacity * 10) / 100)) {
+      color = 'success';
+    }
+    if ((ticketsSold <= (capacity * 10) / 100)) {
+      color = 'warning';
+    }
+    
+    return color;
   }
 
 

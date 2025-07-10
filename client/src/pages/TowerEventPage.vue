@@ -103,7 +103,7 @@ async function cancelTowerEvent() {
         </div>
         <div class="row text-end">
           <!-- TODO Update Spots left instead of Capacity, and change text color with ticket amount -->
-          <p><span class="text-success">{{ towerEvent.capacity }}</span> spots left</p>
+          <p><span :class="`text-${towerEvent.attendeeColor}`">{{ towerEvent.capacity - towerEvent.ticketCount }}</span> spots left</p>
         </div>
         <div class="row mt-5 py-4 text-start justify-content-start">
           <h5 class="fw-bold">Attendees</h5>
