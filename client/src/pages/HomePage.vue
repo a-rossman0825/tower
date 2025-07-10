@@ -1,5 +1,6 @@
 <script setup >
 import { AppState } from '@/AppState.js';
+import CategoryCard from '@/components/CategoryCard.vue';
 import Hero from '@/components/Hero.vue';
 import UpcomingEventCard from '@/components/UpcomingEventCard.vue';
 import { towerEventsService } from '@/services/TowerEventsService.js';
@@ -11,7 +12,12 @@ onMounted(() => {
   getTowerEvents();
 })
 
-const towerEvents = computed(() => AppState.towerEvents);
+const towerEvents = computed(() => {
+  if (activeCategory.value == 'all') {
+    return AppState.towerEvents;
+  }
+  return AppState.towerEvents.filter(towerEvent => towerEvent.type == activeCategory.value)
+});
 
 async function getTowerEvents() {
   try {
@@ -22,6 +28,8 @@ async function getTowerEvents() {
     logger.error('Could not get events', error);
   }
 }
+
+const activeCategory = computed(() => AppState.activeCategory);
 
 </script>
 
@@ -34,42 +42,46 @@ async function getTowerEvents() {
 
   <!-- SECTION HOW IT WORKS DISCOVER/CREATE BUTTONS -->
   <section class="container mt-5">
-    <h4 class="text-light ms-5 mt-5 mb-4">How Tower Works</h4>
+    <h4 class="text-light mt-md-5 mb-4 fw-bold">How Tower Works</h4>
     <div class="row justify-content-center text-light">
-      
-        <a class="col-10 col-md-4 works-card rounded mb-3 mb-md-0 me-md-5">
-          <div class="row">
-            <div class="col-2 mt-2">
-              <i class="mdi mdi-magnify text-primary display-3"></i>
-            </div>
-            <div class="col-9 ms-2 mt-4">
-              <h5>Discover events you're interested in</h5>
-              <p>Browse through community hosted events for all the things you love</p>
-            </div>
+      <a class="col-10 col-md-4 works-card rounded mb-3 mb-md-0 me-md-5">
+        <div class="row">
+          <div class="col-2 mt-2">
+            <i class="mdi mdi-magnify text-primary display-3"></i>
           </div>
-        </a>
-      
-      
-        <div class="col-10 col-md-4 works-card rounded ms-md-5">
-          <div class="row">
-            <div class="col-2 mt-2">
-              <i class="mdi mdi-plus text-primary display-3"></i>
-            </div>
-            <div class="col-9 mt-4">
-              <h5>Start an event to invite your friends</h5>
-              <span>Create your own Tower Event, and draw from a community of millions</span>
-              <p class="text-success">Create an Event</p>
-            </div>
+          <div class="col-9 ms-2 mt-4">
+            <h5>Discover events you're interested in</h5>
+            <p>Browse through community hosted events for all the things you love</p>
           </div>
         </div>
-      
+      </a>
+      <div class="col-10 col-md-4 works-card rounded ms-md-5">
+        <div class="row">
+          <div class="col-2 mt-2">
+            <i class="mdi mdi-plus text-primary display-3"></i>
+          </div>
+          <div class="col-9 mt-4">
+            <h5>Start an event to invite your friends</h5>
+            <span>Create your own Tower Event, and draw from a community of millions</span>
+            <p role="button" class="text-success">Create an Event</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
   <!-- !SECTION -->
-  
+
+  <!-- SECTION CATEGORY FILTER CARDS -->
+  <section class="container mt-5">
+    <h4 class="text-light mb-4 mt-5 fw-bold">Explore Top Categories</h4>
+    <div class="row bg-secondary pt-5 pb-5 rounded">
+      <CategoryCard />
+    </div>
+  </section>
+  <!-- !SECTION -->
   <!-- SECTION UPCOMING EVENTS CARDS  -->
   <section class="container mt-5">
-    <h4 class="text-light mt-5 mb-3 ms-5">Upcoming events</h4>
+    <h4 class="text-light mt-5 mb-3 fw-bold">Upcoming Events</h4>
     <div class="row justify-content-center">
       <div v-for="towerEvent in towerEvents" :key="towerEvent.id" class="col-md-4 col-sm-6 mb-5">
         <UpcomingEventCard :towerEvent />
@@ -85,6 +97,10 @@ a {
   text-decoration: none;
   color: white;
   cursor: pointer;
+}
+
+i {
+  text-shadow: 1px 1px 2px white;
 }
 
 .works-card {

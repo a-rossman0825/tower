@@ -12,9 +12,40 @@ export const AppState = reactive({
   /** @type {import('./models/TowerEvent.js').TowerEvent}*/
   towerEvent: null,
 
+  activeCategory: 'all',
 
-
-
+  categories: [
+    {
+      name: 'all',
+      nickname: 'All',
+      emoji: 'mdi mdi-all-inclusive',
+      color: 'success'
+    },
+    {
+      name: 'concert',
+      nickname: 'Concerts',
+      emoji: 'mdi mdi-guitar-electric',
+      color: 'warning',
+    },
+    {
+      name: 'convention',
+      nickname: 'Conventions',
+      emoji: 'mdi mdi-account-group',
+      color: 'primary'
+    },
+    {
+      name: 'sport',
+      nickname: 'Sports',
+      emoji: 'mdi mdi-football-australian',
+      color: 'info'
+    },
+    {
+      name: 'digital',
+      nickname: 'Digital',
+      emoji: 'mdi mdi-desktop-classic',
+      color: 'danger'
+    }
+  ],
 
   slides: [
   {
