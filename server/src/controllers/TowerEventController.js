@@ -75,10 +75,13 @@ export class TowerEventController extends BaseController {
    * @param {import ("express").NextFunction} next
    */
   async editTowerEvent(req, res, next) {
+
+
     try {
       const towerEventId = req.params.eventId;
       const towerEventEditData = req.body;
-      const towerEvent = await towerEventsService.editTowerEvent(towerEventId, towerEventEditData);
+      const userInfo = req.userInfo;
+      const towerEvent = await towerEventsService.editTowerEvent(towerEventId, towerEventEditData, userInfo);
       res.send(towerEvent);
     } catch (error) {
       next(error)
