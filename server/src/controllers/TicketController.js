@@ -18,6 +18,7 @@ export class TicketController extends BaseController {
   */
   async createTicket(req, res, next) {
     try {
+      // sup
       const ticketData = req.body;
       const userId = req.userInfo.id;
       ticketData.accountId = userId;
