@@ -8,6 +8,7 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const towerEvent = computed(() => AppState.towerEvent);
+const account = computed(()=> AppState.account);
 
 onMounted(() => {
   getTowerEventById()
@@ -24,18 +25,41 @@ async function getTowerEventById() {
   }
 }
 
+async function cancelTowerEvent() {
+  
+    const confirmed = await Pop.confirm(`Are You sure you want to ${towerEvent.value.isCanceled ? 'Uncancel' : 'Cancel'} your "${towerEvent.value.name}" event?`, '', 'Yes', 'No');
+
+    if (!confirmed) return;
+
+    try {
+    const towerEventId = route.params.towerEventId;
+    await towerEventsService.cancelTowerEvent(towerEventId);
+  }
+  catch (error){
+    Pop.error(error);
+    logger.error('Could not Cancel Event!', error);
+  }
+}
+
 </script>
 
 
 <template>
+  
   <section v-if="towerEvent" class="container text-light">
-    <div class="row justify-content-center rounded">
+      <div v-if="!towerEvent.isCanceled" class="row cancel-btn-wrapper justify-content-end">
+        <button @click="cancelTowerEvent()" class="cancel-btn col-2 rounded btn btn-danger" type="button">Cancel Event</button>
+      </div>
+      <div v-else class="row cancel-btn-wrapper justify-content-end">
+        <button @click="cancelTowerEvent()" class="cancel-btn col-2 rounded btn btn-danger" type="button">Uncancel Event</button>
+      </div>
+    <div class="row justify-content-center rounded cover-img-wrapper">
       <div class=" cover-img mt-5 img-fluid w-75" :style="{ backgroundImage: `url(${towerEvent.coverImg})`}">
         <div class="row justify-content-center inner-wrapper">
           <div class="col-9">
             <img
             :src="towerEvent.coverImg"
-            class="inner-image img-fluid w-100"
+            class="inner-image w-100"
             :alt="`${towerEvent.name} cover image`"
             />
           </div>
@@ -93,6 +117,8 @@ async function getTowerEventById() {
 
 <style lang="scss" scoped>
 
+
+
 .cover-img {
   object-fit: cover;
   border-radius: 20px;
@@ -100,7 +126,7 @@ async function getTowerEventById() {
 
 .inner-img {
   object-fit: cover;
-  max-height: 100px;
+  max-height: 80px;
 }
 
 .text-shadow {
@@ -111,6 +137,15 @@ async function getTowerEventById() {
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   border-radius: 20px;
+}
+
+.cancel-btn-wrapper {
+  position: sticky;
+  top: 85px;
+}
+
+.cancel-btn {
+  width: 150px;
 }
 
 </style>

@@ -2,7 +2,11 @@
 import { AppState } from '@/AppState.js';
 import CategoryCard from '@/components/CategoryCard.vue';
 import Hero from '@/components/Hero.vue';
+import Login from '@/components/Login.vue';
+import ModalWrapper from '@/components/ModalWrapper.vue';
+import TowerEventForm from '@/components/TowerEventForm.vue';
 import UpcomingEventCard from '@/components/UpcomingEventCard.vue';
+import { AuthService } from '@/services/AuthService.js';
 import { towerEventsService } from '@/services/TowerEventsService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
@@ -11,6 +15,11 @@ import { computed, onMounted } from 'vue';
 onMounted(() => {
   getTowerEvents();
 })
+
+const identity = computed(() => AppState.identity);
+function login() {
+  AuthService.loginWithRedirect()
+}
 
 const towerEvents = computed(() => {
   if (activeCategory.value == 'all') {
@@ -30,6 +39,7 @@ async function getTowerEvents() {
 }
 
 const activeCategory = computed(() => AppState.activeCategory);
+const account = computed(() => AppState.account);
 
 </script>
 
@@ -55,8 +65,8 @@ const activeCategory = computed(() => AppState.activeCategory);
           </div>
         </div>
       </a>
-      <div class="col-10 col-md-4 works-card rounded ms-md-5">
-        <div class="row">
+      <div v-if="account" class="col-10 col-md-4 works-card rounded ms-md-5">
+        <div class="row" role="button" data-bs-toggle="modal" data-bs-target="#towerEventModal">
           <div class="col-2 mt-2">
             <i class="mdi mdi-plus text-primary display-3"></i>
           </div>
@@ -64,6 +74,22 @@ const activeCategory = computed(() => AppState.activeCategory);
             <h5>Start an event to invite your friends</h5>
             <span>Create your own Tower Event, and draw from a community of millions</span>
             <p role="button" class="text-success">Create an Event</p>
+          </div>
+        </div>
+      </div>
+      <div v-else class="col-10 col-md-4 works-card rounded ms-md-5">
+        <div class="row" role="button" @click="login" v-if="!identity">
+          <div class="col-2 mt-2">
+            <i class="mdi mdi-login text-primary display-3"></i>
+          </div>
+          <div class="col-9 mt-4">
+            <h5>Login to Start an event and invite your friends!</h5>
+            <p>You Can Create your own Tower Event, and draw from a community of millions</p>
+            <div class="row text-center justify-content-center me-5">
+              <p role="button" class=" col-6 text-success">
+                Login Here
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -89,6 +115,10 @@ const activeCategory = computed(() => AppState.activeCategory);
     </div>
   </section>
   <!-- !SECTION -->
+
+  <ModalWrapper modalId="towerEventModal" modalHeader="Create an Event">
+    <TowerEventForm />
+  </ModalWrapper>
 </template>
 
 <style scoped lang="scss">
@@ -109,6 +139,7 @@ i {
   &:hover {
     box-shadow: 1px 1px 4px white;
     transform: translate3d(0.5px, 0.5px, 0.5px);
+    cursor: pointer;
   }
   &:active {
     background-color: rgb(64, 61, 61);

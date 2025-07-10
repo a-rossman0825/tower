@@ -51,7 +51,7 @@ class TowerEventsService {
     if (towerEvent.creatorId != userInfo.id) {
       throw new Forbidden(`You are trying to cancel someone else's event, and for that, you will be punished ${userInfo.name}!`);
     }
-    towerEvent.isCanceled = true;
+    towerEvent.isCanceled = !towerEvent.isCanceled;
 
     await towerEvent.save();
 

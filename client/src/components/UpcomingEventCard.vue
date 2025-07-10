@@ -35,6 +35,7 @@ defineProps({
 
 .cover-img {
   min-height: 310px;
+  max-height: 310px;
   object-fit: cover;
   border-radius: 5%;
 

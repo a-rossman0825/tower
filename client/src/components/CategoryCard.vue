@@ -28,6 +28,7 @@ const categories = computed(()=> AppState.categories);
     background-color: #868484;
     box-shadow: 2px 2px 3px whitesmoke;
     transform: translate(-1px, -1px);
+    cursor: pointer;
   }
 
   &:active {
