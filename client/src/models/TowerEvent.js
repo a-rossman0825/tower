@@ -8,7 +8,7 @@ export class TowerEvent {
     this.location = data.location;
     this.capacity = data.capacity;
     this.startDate = new Date(data.startDate);
-    this.isCancelled = data.isCancelled;
+    this.isCanceled = data.isCanceled;
     this.type = data.type;
     this.creator = data.creator;
     this.creatorId = data.creatorId;
@@ -56,5 +56,7 @@ export class TowerEvent {
     }
     return emojiBG;
   }
+
+
 
 }
