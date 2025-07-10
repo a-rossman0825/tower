@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import { ticketsService } from '@/services/TicketsService.js';
 import { towerEventsService } from '@/services/TowerEventsService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
@@ -11,7 +12,8 @@ const towerEvent = computed(() => AppState.towerEvent);
 const account = computed(()=> AppState.account);
 
 onMounted(() => {
-  getTowerEventById()
+  getTowerEventById();
+  getTicketsByEventId();
 })
 
 async function getTowerEventById() {
@@ -22,6 +24,16 @@ async function getTowerEventById() {
   catch (error){
     Pop.error(error);
     logger.error('Could Not Get event by ID - TowerEventPage', error);
+  }
+}
+
+async function getTicketsByEventId() {
+  try {
+    const eventId = route.params.towerEventId;
+    await ticketsService.getTicketsByEventId(eventId)
+  }
+  catch (error){
+    Pop.error(error);
   }
 }
 

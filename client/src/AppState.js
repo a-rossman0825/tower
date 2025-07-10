@@ -12,6 +12,9 @@ export const AppState = reactive({
   /** @type {import('./models/TowerEvent.js').TowerEvent}*/
   towerEvent: null,
 
+  /** @type {import('./models/Ticket.js').TicketProfile[]} */
+  ticketProfiles: [],
+
   activeCategory: 'all',
 
   categories: [
