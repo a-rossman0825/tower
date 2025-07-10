@@ -47,12 +47,14 @@ async function cancelTowerEvent() {
 <template>
   
   <section v-if="towerEvent" class="container text-light">
-      <div v-if="!towerEvent.isCanceled" class="row cancel-btn-wrapper justify-content-end">
+    <div v-if="account?.id == towerEvent?.creatorId" class="cancel-btn-wrapper">
+      <div v-if="!towerEvent.isCanceled" class="row justify-content-end">
         <button @click="cancelTowerEvent()" class="cancel-btn col-2 rounded btn btn-danger" type="button">Cancel Event</button>
       </div>
       <div v-else class="row cancel-btn-wrapper justify-content-end">
         <button @click="cancelTowerEvent()" class="cancel-btn col-2 rounded btn btn-danger" type="button">Uncancel Event</button>
       </div>
+    </div>
     <div class="row justify-content-center rounded cover-img-wrapper">
       <div class=" cover-img mt-5 img-fluid w-75" :style="{ backgroundImage: `url(${towerEvent.coverImg})`}">
         <div class="row justify-content-center inner-wrapper">
@@ -141,7 +143,7 @@ async function cancelTowerEvent() {
 
 .cancel-btn-wrapper {
   position: sticky;
-  top: 85px;
+  top: 90px;
 }
 
 .cancel-btn {

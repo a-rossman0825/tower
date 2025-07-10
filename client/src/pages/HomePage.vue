@@ -2,7 +2,6 @@
 import { AppState } from '@/AppState.js';
 import CategoryCard from '@/components/CategoryCard.vue';
 import Hero from '@/components/Hero.vue';
-import Login from '@/components/Login.vue';
 import ModalWrapper from '@/components/ModalWrapper.vue';
 import TowerEventForm from '@/components/TowerEventForm.vue';
 import UpcomingEventCard from '@/components/UpcomingEventCard.vue';
