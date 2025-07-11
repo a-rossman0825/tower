@@ -60,21 +60,12 @@ export class TowerEvent {
 
   get attendeeColor() {
     const capacity = this.capacity;
-    const ticketsSold = this.ticketCount;
-    let color = ''
+    const ticketsLeft = capacity - this.ticketCount;
+    const percentLeft = (ticketsLeft / capacity) * 100;
     
-  
-    if ((ticketsSold <= 3 || ticketsSold == 0)) {
-      color = 'danger';
-    }
-    if ((ticketsSold > (capacity * 10) / 100)) {
-      color = 'success';
-    }
-    if ((ticketsSold <= (capacity * 10) / 100)) {
-      color = 'warning';
-    }
-    
-    return color;
+    if (percentLeft <= 30) return 'danger';
+    if (percentLeft <= 50) return 'yellow';
+    return 'success';
   }
 
 
