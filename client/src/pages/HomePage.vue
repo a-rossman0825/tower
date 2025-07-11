@@ -1,4 +1,4 @@
-<script setup >
+<script setup>
 import { AppState } from '@/AppState.js';
 import CategoryCard from '@/components/CategoryCard.vue';
 import Hero from '@/components/Hero.vue';
@@ -31,7 +31,7 @@ async function getTowerEvents() {
   try {
     await towerEventsService.getTowerEvents();
   }
-  catch (error){
+  catch (error) {
     Pop.error(error);
     logger.error('Could not get events', error);
   }
@@ -121,7 +121,6 @@ const account = computed(() => AppState.account);
 </template>
 
 <style scoped lang="scss">
-
 a {
   text-decoration: none;
   color: white;
@@ -135,11 +134,13 @@ i {
 .works-card {
   background-color: #696969;
   text-shadow: 1px 1px 5px black;
+
   &:hover {
     box-shadow: 1px 1px 4px white;
     transform: translate3d(0.5px, 0.5px, 0.5px);
     cursor: pointer;
   }
+
   &:active {
     background-color: rgb(64, 61, 61);
     text-shadow: grey;
@@ -148,5 +149,4 @@ i {
     transform: translate3d(-0.5px, -0.5px, -0.5px);
   }
 }
-
 </style>
