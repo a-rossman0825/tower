@@ -13,7 +13,13 @@ class TicketsService {
   }
 
   async getTicketOwnersByAccountId(userId) {
-    const tickets = await dbContext.Tickets.find({ accountId: userId }).populate('event');
+    const tickets = await dbContext.Tickets.find({ accountId: userId }).populate({
+      path: 'event',
+      populate: {
+        path: 'creator',
+        select: 'name picture'
+      }
+    }).populate('profile', 'name picture');
     return tickets;
   }
 
