@@ -44,7 +44,7 @@ const account = computed(() => AppState.account);
 
 <template>
   <!-- SECTION HERO LANDING CAROUSEL -->
-  <section>
+  <section class="container-fluid">
     <Hero />
   </section>
   <!-- !SECTION -->

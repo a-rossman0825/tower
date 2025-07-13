@@ -8,13 +8,13 @@ class TowerEventsService {
     const towerEvent = await dbContext.TowerEvents.create(towerEventData);
     await towerEvent.populate('creator', 'name picture');
     await towerEvent.populate('ticketCount');
-    // TODO Event Ticket Count .populate ✅
+    
     return towerEvent;
   }
   
   async getAllTowerEvents() {
     const towerEvents = await dbContext.TowerEvents.find().populate('creator', 'name picture').populate('ticketCount');
-    // TODO Event Ticket Count .populate ✅
+    
     return towerEvents;
   }
   
@@ -25,7 +25,7 @@ class TowerEventsService {
     if (!towerEvent) {
       throw new BadRequest(`Invalid id: ${towerEventId}`);
     }
-    // TODO Event Ticket Count .populate ✅
+    
     return towerEvent;
   }
   

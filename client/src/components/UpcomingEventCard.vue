@@ -1,6 +1,9 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { TowerEvent } from '@/models/TowerEvent.js';
+import { computed } from 'vue';
 
+const account = computed(()=> AppState.account);
 
 defineProps({
   towerEvent: { type: TowerEvent, required: true },
@@ -19,12 +22,12 @@ defineProps({
     </div>
     <div class="text-light event-subtext">
       <h5 class="mt-3">{{ towerEvent.name }}</h5>
-      <!-- TODO Change text color if User is Host -->
       <span>{{ towerEvent.startDate.toLocaleDateString() }} - {{ towerEvent.location }}</span>
       <p>{{ towerEvent.ticketCount }} attending</p>
       <div class="row align-items-bottom justify-content-start">
         <img :src="towerEvent.creator.picture" :alt="`${towerEvent.creator.name}'s profile picture`" class="col-1 profile-img">
-        <p class="text-success col-9">Hosted by {{ towerEvent.creator.name }}</p>
+        <p v-if="towerEvent.creator.name !== account?.name" class="text-success col-9 creator-name">Hosted by {{ towerEvent.creator.name }}</p>
+        <p v-else class="creator-name text-primary col-9">Hosted by {{ towerEvent.creator.name }}</p>
       </div>
     </div>
   </RouterLink>
@@ -49,6 +52,9 @@ defineProps({
   }
 }
 
+.creator-name:hover {
+  text-decoration: underline;
+}
 
 
 .type-wrapper {

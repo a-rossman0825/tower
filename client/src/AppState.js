@@ -69,6 +69,7 @@ export const AppState = reactive({
     header: 'Get Out and Find Some Friends, You Dweeb',
     subheader: 'With Tower you can finally find meet & greets or "creepy dude that stands in the corner at parties" conventions where you might be able to meet someone that actually likes your off-putting demeanor (probably not, though).'
   }
-]
+],
+
 })
 

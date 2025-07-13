@@ -16,7 +16,18 @@ const comments = computed(() => AppState.comments);
 
 let editBtns = ref(false);
 
-const editableCommentData = ref({ body: '', })
+const editableCommentData = ref({ body: '',eventId: route.params.towerEventId });
+
+const isAttending = computed (() => {
+  const accountId = AppState.account?.id;
+  const myTicket = AppState.ticketProfiles.find(ticket => accountId == ticket.accountId);
+  if (!myTicket) {
+    return false;
+  } else {
+    return true;
+  }
+})
+
 
 
 onMounted(() => {
@@ -40,7 +51,8 @@ async function getTicketsByEventId() {
   try {
 
     const eventId = route.params.towerEventId;
-    await ticketsService.getTicketsByEventId(eventId)
+    await ticketsService.getTicketsByEventId(eventId);
+
   }
   catch (error) {
     Pop.error(error);
@@ -88,26 +100,37 @@ async function getCommentsByAlbumId() {
 
 async function createComment() {
   try {
-    // FIXME this going to essentially reset your editable data and then dump out it's contents into the object with the spread operator
-    // FIXME I would reference my PictureForm on post_it OR make sure you don't reassign the editable's value here
-    const commentData = {
-      ...editableCommentData.value = { body: '', },
-      eventId: route.params.towerEventId,
-    };
-    logger.log('sending comment', commentData);
-    await commentsService.createComment(commentData);
-    editableCommentData.value = { body: '' };
-
-
+    await commentsService.createComment(editableCommentData.value);
+    editableCommentData.value.body = '';
   }
   catch (error) {
     Pop.error(error);
+    logger.error('Could not create Comment', error);
+    
+  }
+}
+
+async function deleteComment(commentId) {
+  const confirmed = await Pop.confirm('Are you sure you want to delete your comment?');
+
+  if (!confirmed) return
+
+  try {
+    logger.log('deleting comment', commentId);
+      await commentsService.deleteComment(commentId);
+  }
+  catch (error){
+    Pop.error('could not delete comment', error);
   }
 }
 
 function toggleEditBtns() {
   editBtns.value = !editBtns.value;
 }
+
+
+
+
 
 </script>
 
@@ -169,14 +192,20 @@ function toggleEditBtns() {
             <h5 class="mt-3 mb-2">Comments</h5>
           </div>
           <form @submit.prevent="createComment()" class="justify-content-center text-center">
-            <textarea v-model="editableCommentData.body" class="col-12 rounded" name="post-comment" id="post-comment"
+            <textarea v-model="editableCommentData.body" type="text" class="col-12 rounded" name="post-comment" id="post-comment"
               maxlength="500" placeholder="Speak Your Mind!" required></textarea>
             <div class="row justify-content-end me-1">
               <button type="submit" class="col-2 rounded btn btn-primary mb-3 mt-2">Share</button>
             </div>
           </form>
           <div v-for="comment in comments" :key="comment.id" class="text-light row justify-content-center">
+            
             <div class="col-11 mb-4 bg-dark py-2 rounded">
+              <div v-if="comment.creatorId == account.id" class="row justify-content-end me-2">
+                <div @click="deleteComment(comment.id)" role="button" class="col-1">
+                  <i class="mdi mdi-dots-horizontal-circle-outline"></i>
+              </div>
+            </div>
               <img :src="comment.creator.picture" alt="alt text" class="profile-img-comments">
               <span class="ms-3 text-secondary">{{ comment.creator.name }}</span>
               <p class="col-10 ms-5">{{ comment.body }}</p>
@@ -203,19 +232,29 @@ function toggleEditBtns() {
           </div>
         </div>
         <div v-else class="row justify-content-center text-center bg-secondary rounded py-4 px-2 text-shadow">
-          <h5>Interested in going?</h5>
-          <p>Grab a ticket!</p>
-          <button @click="createTicket()" type="button" class="btn btn-info col-6">
-            Attend
-          </button>
+          <div v-if="!isAttending">
+            <h5>Interested in going?</h5>
+            <p>Grab a ticket!</p>
+            <button @click="createTicket()" type="button" class="btn btn-info col-6">
+              Attend
+            </button>
+          </div>
+          <div v-else>
+            <h5 class="text-success">You Already Have a Ticket!</h5>
+            <p>Need More?</p>
+            <button @click="createTicket()" type="button" class="btn btn-info col-6">
+              Buy More Tickets
+            </button>
+          </div>
+          
         </div>
         <div class="row text-end">
-          <!-- TODO Update Spots left instead of Capacity, and change text color with ticket amount ✅-->
+          
           <p><span :class="`text-${towerEvent.attendeeColor}`">{{ towerEvent.capacity - towerEvent.ticketCount }}</span>
             spots left</p>
         </div>
         <div class="row bg-secondary rounded text-shadow">
-          <!-- TODO CREATE ATTENDEES LIST ✅-->
+          
           <div class="row py-4 text-center justify-content-start">
             <h5 class="fw-bold mb-3 fs-4">Attendees</h5>
             <div v-for="(ticketProfile) in ticketProfiles" :key="ticketProfile.id" class="col-12 mb-2">
