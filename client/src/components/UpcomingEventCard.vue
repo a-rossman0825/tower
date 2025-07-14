@@ -43,7 +43,7 @@ async function unattend() {
       <div v-if="account" class="col-2 attending-wrapper position-absolute text-center bg-success text-dark" :class="{'bg-success': isAttending, 'bg-primary': isCreator, 'bg-secondary': !isCreator && !isAttending}">
         <p v-if="isAttending && !isCreator" class="fs-5 ms-3 ms-md-2 ms-lg-3" role="button" selectable @click.prevent="unattend">Unattend</p>
         <p v-else-if="isCreator" class="fs-5 ms-3 ms-md-2 ms-lg-3">Creator</p>
-        <p v-else class="fs-5 ms-3 ms-md-2 ms-lg-3">Not Attending</p>
+        <p v-else class="fs-5 ms-3 ms-md-2 ms-lg-3 text-start">get ticket</p>
       </div>
     </div>
     <div v-if="towerEvent.creator" class="text-light event-subtext">

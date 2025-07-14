@@ -7,16 +7,36 @@ import { logger } from '@/utils/Logger.js';
 import UpcomingEventCard from '@/components/UpcomingEventCard.vue';
 import { towerEventsService } from '@/services/TowerEventsService.js';
 
-
 const account = computed(() => AppState.account);
-const ticketedEvents = computed(() => AppState.ticketedEvents);
-const createdEvents = computed(() => AppState.towerEvents.filter(event => event.creatorId == account.value?.id));
-const attendingEvents = computed(() => AppState.ticketedEvents);
+
+// Events the user created
+const createdEvents = computed(() => {
+  return AppState.towerEvents.filter(event => event.creatorId == account.value?.id);
+});
+
+// Unique ticketed events (deduplicated by event id)
+const uniqueTicketedEvents = computed(() => {
+  const seen = new Set();
+  return AppState.ticketedEvents
+    .map(ticket => ticket.event)
+    .filter(event => {
+      if (!seen.has(event.id)) {
+        seen.add(event.id);
+        return true;
+      }
+      return false;
+    });
+});
+
+// Events the user is attending but did not create
+const attendingEventsNotCreated = computed(() => {
+  return uniqueTicketedEvents.value.filter(event => event.creatorId !== account.value?.id);
+});
 
 onMounted(() => {
   getTicketedEvents();
   getAllEvents();
-})
+});
 
 async function getTicketedEvents() {
   try {
@@ -37,6 +57,7 @@ async function getAllEvents() {
   }
 }
 
+
 </script>
 
 <template>
@@ -46,18 +67,25 @@ async function getAllEvents() {
         <img :src="account.picture" :alt="`${account.name}'s profile picture'`" class="profile-img col-4">
         <div class="col-8 d-inline-block align-middle ms-4">
           <h5>{{ account.name }}</h5>
-          <p class="text-secondary"> {{createdEvents.length}} events <i class="mdi mdi-circle-small"></i> {{ attendingEvents.length }} tickets</p>
+          <p class="text-secondary"> {{createdEvents.length}} events <i class="mdi mdi-circle-small"></i> {{ uniqueTicketedEvents.length }} tickets</p>
         </div>
       </div>
     </div>
     <div class="row">
-      <h5>Your Events</h5>
-      <div v-for="ticketedEvent in ticketedEvents" :key="ticketedEvent.id" class="row">
-        <UpcomingEventCard :towerEvent="ticketedEvent.event"/>
+      <h4 class="text-light mt-5 mb-3 fw-bold">Your Events</h4>
+      <div class="row justify-content-center">
+        <div v-for="event in createdEvents" :key="event.id" class="col-md-4 col-sm-6 mb-5">
+          <UpcomingEventCard :towerEvent="event"/>
+        </div>
       </div>
     </div>
     <div class="row">
-      <h5>Your Upcoming Events</h5>
+      <h5 class="text-light mt-5 mb-3 fw-bold">Your Upcoming Events</h5>
+      <div class="row justify-content-center">
+        <div v-for="event in attendingEventsNotCreated" :key="event.id" class="col-md-4 col-sm-6 mb-5">
+          <UpcomingEventCard :towerEvent="event"/>
+        </div>
+      </div>
     </div>
   </div>
   <div v-else class="container">
