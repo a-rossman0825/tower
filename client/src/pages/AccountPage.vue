@@ -8,13 +8,11 @@ import UpcomingEventCard from '@/components/UpcomingEventCard.vue';
 import { towerEventsService } from '@/services/TowerEventsService.js';
 
 const account = computed(() => AppState.account);
-
-// Events the user created
 const createdEvents = computed(() => {
   return AppState.towerEvents.filter(event => event.creatorId == account.value?.id);
 });
 
-// Unique ticketed events (deduplicated by event id)
+
 const uniqueTicketedEvents = computed(() => {
   const seen = new Set();
   return AppState.ticketedEvents
@@ -28,7 +26,7 @@ const uniqueTicketedEvents = computed(() => {
     });
 });
 
-// Events the user is attending but did not create
+
 const attendingEventsNotCreated = computed(() => {
   return uniqueTicketedEvents.value.filter(event => event.creatorId !== account.value?.id);
 });
