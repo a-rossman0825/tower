@@ -24,7 +24,6 @@ const currentSlideIndex = ref(0);
   <div class="hero-container">
     <div v-for="(slide, index) in slides" :key="index" class="slide"
       :style="{ backgroundImage: `url(${slide.imgUrl})` }" :class="{ active: index === currentSlideIndex }">
-      <!-- FIXME this is giving you horizontal scroll on mobile since these rows are outside of a container✅ -->
       <div class="hero-text align-items-end row d-flex justify-content-start">
         <h5 class="col-6">{{ slide.header }}</h5>
         <p class="col-8">{{ slide.subheader }}</p>

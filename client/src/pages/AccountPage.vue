@@ -27,7 +27,7 @@ const uniqueTicketedEvents = computed(() => {
 });
 
 
-const attendingEventsNotCreated = computed(() => {
+const attendingEvents = computed(() => {
   return uniqueTicketedEvents.value.filter(event => event.creatorId !== account.value?.id);
 });
 
@@ -80,7 +80,7 @@ async function getAllEvents() {
     <div class="row">
       <h5 class="text-light mt-5 mb-3 fw-bold">Your Upcoming Events</h5>
       <div class="row justify-content-center">
-        <div v-for="event in attendingEventsNotCreated" :key="event.id" class="col-md-4 col-sm-6 mb-5">
+        <div v-for="event in attendingEvents" :key="event.id" class="col-md-4 col-sm-6 mb-5">
           <UpcomingEventCard :towerEvent="event"/>
         </div>
       </div>
