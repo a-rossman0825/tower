@@ -65,7 +65,7 @@ async function getAllEvents() {
         <img :src="account.picture" :alt="`${account.name}'s profile picture'`" class="profile-img col-4">
         <div class="col-8 d-inline-block align-middle ms-4">
           <h5>{{ account.name }}</h5>
-          <p class="text-secondary"> {{createdEvents.length}} events <i class="mdi mdi-circle-small"></i> {{ uniqueTicketedEvents.length }} tickets</p>
+          <p class="text-secondary"> {{createdEvents.length}} events <i class="mdi mdi-circle-small"></i> {{ drawOneEvent.length }} tickets</p>
         </div>
       </div>
     </div>
