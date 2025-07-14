@@ -13,13 +13,13 @@ const createdEvents = computed(() => {
 });
 
 
-const uniqueTicketedEvents = computed(() => {
-  const seen = new Set();
+const drawOneEvent = computed(() => {
+  const alreadyTicketed = new Set();
   return AppState.ticketedEvents
     .map(ticket => ticket.event)
     .filter(event => {
-      if (!seen.has(event.id)) {
-        seen.add(event.id);
+      if (!alreadyTicketed.has(event.id)) {
+        alreadyTicketed.add(event.id);
         return true;
       }
       return false;
@@ -28,7 +28,7 @@ const uniqueTicketedEvents = computed(() => {
 
 
 const attendingEvents = computed(() => {
-  return uniqueTicketedEvents.value.filter(event => event.creatorId !== account.value?.id);
+  return drawOneEvent.value.filter(event => event.creatorId !== account.value?.id);
 });
 
 onMounted(() => {
